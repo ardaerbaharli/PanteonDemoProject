@@ -3,6 +3,8 @@ using MapEntities;
 using MapEntities.Buildings.Interfaces;
 using MapEntities.Units;
 using Products.ScriptableObjects;
+using UI;
+using UI.Menus;
 using UnityEngine;
 using Utilities;
 
@@ -24,6 +26,7 @@ namespace Products.ProductTypes
             {
                 unitProduct.ReturnToPool();
                 GridManager.Instance.ResetAllTileColors();
+                MenuController.Instance.HideMenu(MenuType.InformationMenu);
             }
         }
 

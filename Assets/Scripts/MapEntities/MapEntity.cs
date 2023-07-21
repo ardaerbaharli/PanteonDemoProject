@@ -23,6 +23,7 @@ namespace MapEntities
         private BoxCollider2D _boxCollider2D;
 
         public Health health;
+        protected bool isAlive;
         public Action onDestroyed;
         protected SpriteRendererController spriteRendererController;
 
@@ -59,7 +60,7 @@ namespace MapEntities
         {
             health.Initialize(productProperty.health);
             SetSize(productProperty.size);
-
+            isAlive = true;
             spriteRendererController.SetSprite(productProperty.sprite);
         }
 
@@ -73,6 +74,7 @@ namespace MapEntities
         public virtual void DestroyEntity()
         {
             onDestroyed?.Invoke();
+            isAlive = false;
             ReturnToPool();
         }
 

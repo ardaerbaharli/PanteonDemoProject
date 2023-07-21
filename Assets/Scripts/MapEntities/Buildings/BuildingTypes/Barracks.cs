@@ -17,6 +17,8 @@ namespace MapEntities.Buildings.BuildingTypes
 
         public bool CreateUnit(Unit unit)
         {
+            if (!isAlive) return false;
+            
             if (_availableSlotIndexes.Count == 0) return false;
 
             var unitSlotIndex = _availableSlotIndexes[0];

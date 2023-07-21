@@ -61,7 +61,7 @@ namespace MapEntities.Units.UnitTypes
         {
             targetUnit.onDestroyed = null;
             targetUnit.movement.startedMoving = null;
-            
+
             if (IsAttacking || movingToAttack)
             {
                 AbortAct();
@@ -83,10 +83,16 @@ namespace MapEntities.Units.UnitTypes
             var targetUnitNeighbors = targetUnitTile.GetNeighbors();
             if (!targetUnitNeighbors.Contains(positionTile))
             {
-                var targetTile = targetUnit.positionTile.GetNeighbors().Find(x => x.isEmpty);
+                var targetTile = targetUnit.positionTile.GetNeighbors().Find(x => x.isEmpty && !x.isReserved);
                 if (targetTile == null) yield break;
                 movingToAttack = true;
                 Move(targetTile);
+                if (!canMove)
+                {
+                    canMove = true;
+                    reachedTarget = true;
+                    yield break;
+                }
                 yield return new WaitUntil(() => reachedTarget);
             }
 

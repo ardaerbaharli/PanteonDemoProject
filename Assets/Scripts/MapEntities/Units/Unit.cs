@@ -17,6 +17,7 @@ namespace MapEntities.Units
 
         public Movement movement;
         public bool reachedTarget;
+        public bool canMove;
 
         protected bool isActing;
         protected bool movingToAttack;
@@ -94,7 +95,6 @@ namespace MapEntities.Units
 
             if (targetTile.isReserved || !targetTile.isEmpty)
             {
-                OnReachedTile(positionTile);
                 return;
             }
 
@@ -109,6 +109,14 @@ namespace MapEntities.Units
 
         private void OnReachedTile(GridTile tile)
         {
+            if (tile == positionTile)
+            {
+                canMove = false;
+                return;
+            }
+            
+            canMove = true;
+            
             if (!positionTile.isBuildingLandTile && !tile.isBuildingLandTile)
             {
                 positionTile.isEmpty = true;

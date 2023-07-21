@@ -92,6 +92,7 @@ namespace MapEntities.Units.Components
         {
             if (path.Count <= 0)
             {
+                _targetTile.ResetColor();
                 onReached?.Invoke(_currentTile);
                 return;
             }
