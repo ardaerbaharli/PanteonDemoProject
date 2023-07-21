@@ -20,7 +20,7 @@ namespace MapEntities.Units
         public bool canMove;
 
         protected bool isActing;
-        protected bool movingToAttack;
+        protected bool movingToAct;
         public Action onLeftSpawn;
 
 
@@ -89,7 +89,7 @@ namespace MapEntities.Units
 
         public void Move(GridTile targetTile)
         {
-            if (isActing) AbortAct();
+            if (isActing||movingToAct) AbortAct();
 
             reachedTarget = false;
 
@@ -128,7 +128,7 @@ namespace MapEntities.Units
             positionTile.ResetColor();
             
             reachedTarget = true;
-            movingToAttack = false;
+            movingToAct = false;
         }
     }
 }

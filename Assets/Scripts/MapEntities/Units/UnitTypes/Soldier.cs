@@ -62,7 +62,7 @@ namespace MapEntities.Units.UnitTypes
             targetUnit.onDestroyed = null;
             targetUnit.movement.startedMoving = null;
 
-            if (IsAttacking || movingToAttack)
+            if (IsAttacking || movingToAct)
             {
                 AbortAct();
                 yield return new WaitUntil(() => !IsAttacking);
@@ -85,7 +85,7 @@ namespace MapEntities.Units.UnitTypes
             {
                 var targetTile = targetUnit.positionTile.GetNeighbors().Find(x => x.isEmpty && !x.isReserved);
                 if (targetTile == null) yield break;
-                movingToAttack = true;
+                movingToAct = true;
                 Move(targetTile);
                 if (!canMove)
                 {
@@ -116,14 +116,21 @@ namespace MapEntities.Units.UnitTypes
 
         private IEnumerator AttackCoroutine(Building building)
         {
-            if (IsAttacking)
+            if (IsAttacking || movingToAct)
             {
                 AbortAct();
                 yield return new WaitUntil(() => !IsAttacking);
             }
 
             reachedTarget = false;
+            movingToAct = true;
             Move(building);
+            if (!canMove)
+            {
+                canMove = true;
+                reachedTarget = true;
+                yield break;
+            }
             yield return new WaitUntil(() => reachedTarget);
 
             building.onDestroyed += AbortAct;
